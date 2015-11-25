@@ -8,7 +8,7 @@ var CommentBox = React.createClass({
     this.setState({
       data : this.props.data
     });
-    
+
   },
   getInitialState : function () {
     return {
@@ -17,14 +17,24 @@ var CommentBox = React.createClass({
   },
   componentDidMount: function() {
     //Simulamos una llamada AJAX
-    setInterval(this.getDataFromJSON, 2000);
+    setTimeout(this.getDataFromJSON, 2000);
+  },
+  handleCommentSubmit : function (comment) {
+    comment.id = Date.now();
+
+    var comments = this.state.data;
+    var newComments = comments.concat([comment]);
+
+    this.setState({data : newComments});
+
+    console.log('handleCommentSubmit', comment);
   },
   render : function () {
     return (
       <div className="commentBox">
         <h1> Comentarios </h1>
         <CommentList data={this.state.data}/>
-        <CommentForm />
+        <CommentForm onCommentSubmit={this.handleCommentSubmit}/>
       </div>
     )
   },
